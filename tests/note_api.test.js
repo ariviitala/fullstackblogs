@@ -6,22 +6,21 @@ const testBlogs = require('./test_blogs')
 
 const api = supertest(app)
 
+//console.log(testBlogs)
+
 describe('Blog routing', () => {
 
   beforeEach(async () => {
     await Blog.deleteMany({})
 
-    testBlogs.forEach(async (blog) => {
-      let blogObject = new Blog(blog)
-      await blogObject.save()
-      //console.log('saved')
-    })
-    //console.log('doned')
+    const blogObjects = testBlogs.map(b => new Blog(b))
+    const promiseArray = blogObjects.map(b => b.save())
+    await Promise.all(promiseArray)
   })
 
   test('Two blogs are returned', async () => {
-    const response = await api.get('api/blogs')
-    console.log('The response' + response.contents)
+    const response = await api.get('/api/blogs')
+    //console.log('The response' + response.contents)
     //const contents = response.body.map(r => r.content)
     expect(response.body).toHaveLength(testBlogs.length)
   })
@@ -33,15 +32,16 @@ describe('Blog routing', () => {
       .expect('Content-Type', /application\/json/)
   })
 
+  /* test('Blogs have id-field', async () => {
+    const blogs = await api.get('/api/blogs').body
 
-
-/*   test('Blogs have id-field', async () => {
-    await api
-    .get('/api/blogs')
-    .
+    blogs.forEach(b => expect(b.id).toBeDefined())
+    //expect(blogs[0].id).toBeDefined()
   }) */
 
-  afterAll(() => {
-    mongoose.connection.close()
-  })
+
+})
+
+afterAll(() => {
+  mongoose.connection.close()
 })
