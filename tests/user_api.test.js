@@ -12,13 +12,6 @@ describe('Blog routing', () => {
   beforeEach(async () => {
     await User.deleteMany({})
   })
-  /* beforeEach(async () => {
-    await Blog.deleteMany({})
-
-    const blogObjects = testBlogs.map(b => new Blog(b))
-    const promiseArray = blogObjects.map(b => b.save())
-    await Promise.all(promiseArray)
-  }) */
 
   test('Can add user', async () => {
     const newUser = {
@@ -37,7 +30,7 @@ describe('Blog routing', () => {
       name: 'Kalle',
       password: 'salasana'
     }
-    //await api.post('/api/users').send(badUser).expect(400)
+    await api.post('/api/users').send(badUser).expect(400)
 
   })
 
