@@ -1,4 +1,9 @@
 //GET http://localhost:3001/api/persons
+
+
+DELETE http://localhost:3001/api/blogs/5eafba2b756a3c472a7f66b9 HTTP/1.1
+
+####
 POST http://localhost:3001/api/blogs HTTP/1.1
 content-type: application/json
 
@@ -7,4 +12,13 @@ content-type: application/json
     "author": "String",
     "url": "String",
     "likes": 3
+}
+
+#####
+
+PUT http://localhost:3001/api/blogs/5eafb9b9756a3c472a7f66b8 HTTP/1.1
+content-type: application/json
+
+{
+    "likes": 7
 }
